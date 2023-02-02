@@ -1,37 +1,38 @@
-archivo1= open ("ejemplo.txt")
-archivo2= archivo1.read()
-archivo= (archivo2.lower())
+archivo= open("ejemplo.txt").read().lower()
 
-def generar_palabra (archivo, i):
-    str_rta= []
-    while (archivo[i] != " ") and (archivo[i]!= ",")and (archivo[i]!= ";")and (archivo[i]!= "[")and (archivo[i]!= "]")and (archivo[i]!= ":")and (archivo[i]!= "|"):
-        str_rta.append(archivo[i])
-        i+=1
-    palabra="".join(str_rta)
-    return (palabra, i+1, archivo[i])
 
 def lexer (archivo):
-    rta= []
-    size= len(archivo)
+    rta= list()
     j=0
-    while j < size:
+    while j < len(archivo):
         palabra, j, siguientepalabra= (generar_palabra(archivo,j))
         rta.append(palabra)
         if siguientepalabra!= " ":
             rta.append(siguientepalabra)
+    rta[0]=rta[0].replace("\n","")
     return rta
 
+def generar_palabra (archivo, i):
+    generador_palabra= []
+    simbolos_cierre={" ",",",",","[","]",":","|"}
+    while archivo[i] not in simbolos_cierre:
+        generador_palabra.append(archivo[i])
+        i+=1
+    palabra="".join(generador_palabra)
+    return (palabra, i+1, archivo[i])
 
+#Requerimientos
 
+#Crear un diccionario con el nombre de las funciones. La llave es el nombre y el valor la cantidad de parametros
+#Crear otro diccionario para las condiciones
+
+""" 
 def es_palabra_reservada (palabra,lista_palabras_reservadas):
     if palabra in lista_palabras_reservadas:
         return (True)
     else:
         return (False)
 
-
-#rta= generar_palabra (archivo, 0)
-#print (rta)
-
-#a= [palabra.strip() for palabra in archivo.split(" ") if palabra!=""]
+ """
 print(lexer(archivo))
+
