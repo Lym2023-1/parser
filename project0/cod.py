@@ -85,9 +85,11 @@ def lexer (archivo):
 
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #FUNCIONES PARA procesar BLOQUES DE INSTRUCCIONES SEPARADOS"
+
+#revisa de donde a donde estan los procedimientos, retorna si están bien y la posicion final donde terminó de leer
 def procesar_todos_procedimientos (lexer: list, posicion_inicial: int):
     return()
-
+#
 def procesar_un_procedimiento():
     return()
 
@@ -108,10 +110,41 @@ def es_palabra_reservada (palabra, dic_condicionales, dic_comandos):
         return (True, (dic_comandos[palabra]))
     else: 
         return(False, None)
+
+def funcion_principal(archivo, es_correcto: bool)->bool:
+    #FUNCIONAMIENTO GENERAL
+    #Esta función itera el lexer paso por paso, usando funciones auxiliares (que a su vez pueden usar más funciones auxiliares, 
+    #importante: en vez de una orden simple de avance (i+=1) se utiliza el i que cada función retorna
+    #en cada paso, la varialbe "es_correcto" dice si hay o no un error en la syntaxis, si lo hay, se acabará el while, si no, seguirá el while hasta el final de archivo
+    #el while pude acabar tanto si variable es correcto es falsa o verdadera, por eso se retorna esta variable, es la respuesta final del programa
+    i=0
+    longitud= len(lexer) 
+    while i<longitud and es_correcto== True:
+        palabra_actual=lexer[i]
+        es_reservada, palabra= es_palabra_reservada(palabra_actual)
+        if es_reservada== True:
+            if palabra== "PROCS":
+                es_correcto, i= procesar_todos_procedimientos(lexer, [i])
+
+            elif palabra= "VAR":
+                es_correcto, i= procesar_todos_vars(lexer[i])
+
+            elif palabra= "VAR":
+                es_correcto, i= procesar_todos_vars(lexer[i])
+                
+            #faltan condiciones, cada condicion debe invocar una funcion que procese una parte del lexer y retorne la posición en la que quedo
+            #faltan condiciones
+        else: 
+            return false
+
+    return es_correcto      
+
+        
+
+
+
+    return 
+
+
+print (funcion_principal(archivo, true))
     
-print (es_palabra_reservada("canmoveindir", dic_condicionales, dic_comandos))
-
-
-"""
-print(lexer(archivo))
-"""
